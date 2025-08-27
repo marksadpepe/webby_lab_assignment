@@ -6,7 +6,7 @@ import {connectDatabase, ensureDatabaseExists} from "./db/db"
 import {movieRouter as MovieRouter} from "./routers/moview.router";
 import {httpErrorMiddleware} from "./middlewares/http-exception.middleware";
 
-const {appPort} = config;
+const {appPort, appHost} = config;
 
 const app = express();
 
@@ -17,11 +17,12 @@ app.use(httpErrorMiddleware)
 
 const startApp = async () => {
   try {
+    // TODO: find another way to do this
     await ensureDatabaseExists();
 
     await connectDatabase();
 
-    app.listen(appPort, () => {
+    app.listen(appPort, appHost, () => {
       console.log(`\nServer is listening on ${appPort} port`);
     })
   } catch (err) {

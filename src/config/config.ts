@@ -11,6 +11,7 @@ interface ConfigDto {
   }
 
   appPort: number
+  appHost: string
 }
 
 // TODO: stupid, need to redo
@@ -20,7 +21,7 @@ const DATABASE_LOGGING: Record<string, boolean> = {
 }
 
 function getConfig(): ConfigDto {
-  const {DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_LOGGING, APP_PORT} = process.env
+  const {DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_LOGGING, APP_PORT, APP_HOST} = process.env
 
   if (!DB_HOST || !DB_PORT || !DB_NAME || !DB_USERNAME || !DB_PASSWORD || !DB_LOGGING) {
     throw new Error('Some of the DB settings not specified')
@@ -33,6 +34,10 @@ function getConfig(): ConfigDto {
     throw new Error('DB port is not a number')
   }
 
+  if (!APP_HOST) {
+    throw new Error('Application host is not specified')
+  }
+
   const appPort = Number(APP_PORT)
 
   if (isNaN(appPort)) {
@@ -42,7 +47,7 @@ function getConfig(): ConfigDto {
   return {
     database: {
       host: DB_HOST, username: DB_USERNAME, password: DB_PASSWORD, port: dbPort, databaseName: DB_NAME, logging: dbLogging in DATABASE_LOGGING ? DATABASE_LOGGING[dbLogging] : false
-    }, appPort
+    }, appPort, appHost: APP_HOST
   }
 }
 
