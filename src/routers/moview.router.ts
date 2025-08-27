@@ -6,13 +6,14 @@ import { CreateMoviePayloadDto } from "../types/dto/create-movie.dto";
 import { GetMovieByTitleDto } from "../types/dto/get-movies-params.dto";
 
 import {multerUpload} from "../helpers/multer";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const movieRouter = Router()
 
-movieRouter.post("/movies/import", multerUpload.single("file"), MovieController.importMovies);
-movieRouter.post("/movies", requestDtoValidationMiddleware(CreateMoviePayloadDto, {isBody: true}), MovieController.addMovie);
-movieRouter.delete("/movies/:id",  MovieController.deleteMovie);
-movieRouter.get("/movies/:id", MovieController.getMovie);
-movieRouter.get("/movies", requestDtoValidationMiddleware(GetMovieByTitleDto, {isBody: false, isParams: false}), MovieController.getMovieList);
+movieRouter.post("/import", authMiddleware, multerUpload.single("file"), MovieController.importMovies);
+movieRouter.post("", authMiddleware, requestDtoValidationMiddleware(CreateMoviePayloadDto, {isBody: true}), MovieController.addMovie);
+movieRouter.delete("/:id", authMiddleware, MovieController.deleteMovie);
+movieRouter.get("/:id", authMiddleware, MovieController.getMovie);
+movieRouter.get("", authMiddleware, requestDtoValidationMiddleware(GetMovieByTitleDto, {isBody: false, isParams: false}), MovieController.getMovieList);
 
 export {movieRouter};

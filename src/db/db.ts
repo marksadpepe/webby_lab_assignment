@@ -4,6 +4,7 @@ import {Client} from "pg"
 import { MovieModel } from "../models/movie.model";
 import { ActorModel } from "../models/actor.model";
 import { MovieActorModel } from "../models/movie-actor.model";
+import { UserModel } from "../models/user.model";
 
 const {database: {databaseName, host, port, password, username, logging}} = config
 
@@ -17,7 +18,7 @@ export const sequelize = new Sequelize({
   logging
 })
 
-sequelize.addModels([MovieModel, ActorModel, MovieActorModel])
+sequelize.addModels([MovieModel, ActorModel, MovieActorModel, UserModel])
 
 export async function ensureDatabaseExists() {
   const client = new Client({host, port, user: username, password, database: "postgres"})
