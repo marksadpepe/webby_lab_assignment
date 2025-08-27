@@ -2,7 +2,7 @@ import { BelongsToMany, Column, CreatedAt, DataType, Default, DeletedAt, Model, 
 import { MovieModel } from "./movie.model";
 import { MovieActorModel } from "./movie-actor.model";
 
-@Table({tableName: "actors", timestamps: true})
+@Table({tableName: "actors", timestamps: true, paranoid: true})
 export class ActorModel extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)

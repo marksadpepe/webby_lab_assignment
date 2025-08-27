@@ -1,9 +1,9 @@
 import { BelongsToMany, Column, CreatedAt, DataType, Default, DeletedAt, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
-import { MovieFormat } from "src/types/movie";
+import { MovieFormat } from "../types/interfaces/movie";
 import { ActorModel } from "./actor.model";
 import { MovieActorModel } from "./movie-actor.model";
 
-@Table({tableName: "movies", timestamps: true})
+@Table({tableName: "movies", timestamps: true, paranoid: true})
 export class MovieModel extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
