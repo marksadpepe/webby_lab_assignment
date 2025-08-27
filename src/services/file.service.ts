@@ -35,10 +35,10 @@ class FileService {
         continue;
       }
 
-      const format = formatDirty.replace(/\s+/g,"").replace(/-/g,"").toLowerCase();
+      const format = formatDirty.replace(/\s+/g,"").toLowerCase().trim();
       const stars = starsDirty.split(",").map(x => x.trim()).filter(Boolean);
 
-      const movieFormat = format.toLowerCase() in this.movieFormatMap ? this.movieFormatMap[format.toLowerCase()] : undefined
+      const movieFormat = format in this.movieFormatMap ? this.movieFormatMap[format] : undefined
 
       if (!movieFormat) {
         throw ApiException.BadRequestException(`Incorrect format for "${title}" movie`)

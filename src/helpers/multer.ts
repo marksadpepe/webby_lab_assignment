@@ -5,8 +5,6 @@ import {config} from '../config/config';
 
 const {movies_upload_dir} = config
 
-console.log(movies_upload_dir)
-
 if (!fs.existsSync(movies_upload_dir)) {
   fs.mkdirSync(movies_upload_dir, {recursive: true})
 }
