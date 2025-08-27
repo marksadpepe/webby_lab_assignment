@@ -1,0 +1,12 @@
+dist
+node_modules
+coverage
+.git
+*.md
+*.json
+*.lock
+.env*
+docker-compose.yml
+Dockerfile
+.dockerignore
+.sequelizerc

@@ -14,6 +14,7 @@ A REST API for managing movies, built as a test assignment for Webby Lab. The ap
 - **Validation**: class-validator
 - **File uploads**: Multer
 - **Password hashing**: bcrypt
+- **Code Quality**: ESLint + Prettier (pretty basic configuration)
 
 ### Features
 - **Authentication**: user registration, login, and logout
