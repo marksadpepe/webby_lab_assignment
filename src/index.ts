@@ -6,14 +6,14 @@ import {connectDatabase, ensureDatabaseExists} from "./db/db"
 import {movieRouter as MovieRouter} from "./routers/moview.router";
 import {httpErrorMiddleware} from "./middlewares/http-exception.middleware";
 
-const {appPort, appHost} = config;
+const {appPort, appHost, movies_upload_dir} = config;
 
 const app = express();
 
 app.use(express.json())
 app.use("/api/v1", MovieRouter);
 app.use(httpErrorMiddleware)
-
+app.use(`/${movies_upload_dir}`, express.static(movies_upload_dir));
 
 const startApp = async () => {
   try {

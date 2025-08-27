@@ -2,6 +2,18 @@ import {movieService as MovieService} from "../services/movie.service";
 import { NextFunction, Request, Response } from "express";
 
 class MovieController {
+  async importMovies(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+    try {
+      const file = req?.file
+
+      const data = await MovieService.importMovies(file)
+
+      return res.status(201).json(data)
+    } catch (err) {
+      next(err)
+    }
+  }
+
   async addMovie(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
     try {
       const payload = req.body

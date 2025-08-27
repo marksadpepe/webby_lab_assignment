@@ -1,13 +1,15 @@
 import {Router} from "express";
 
 import {movieController as MovieController} from "../controllers/movie.controller";
-
 import {requestDtoValidationMiddleware} from "../middlewares/request-dto-validation.middleware";
 import { CreateMoviePayloadDto } from "../types/dto/create-movie.dto";
 import { GetMovieByTitleDto } from "../types/dto/get-movies-params.dto";
 
+import {multerUpload} from "../helpers/multer";
+
 const movieRouter = Router()
 
+movieRouter.post("/movies/import", multerUpload.single("file"), MovieController.importMovies);
 movieRouter.post("/movies", requestDtoValidationMiddleware(CreateMoviePayloadDto, {isBody: true}), MovieController.addMovie);
 movieRouter.delete("/movies/:id",  MovieController.deleteMovie);
 movieRouter.get("/movies/:id", MovieController.getMovie);

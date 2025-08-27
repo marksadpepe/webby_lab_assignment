@@ -12,6 +12,7 @@ export interface GetMovieResponse {
   year: number
   format: MovieFormat
   actorList: ActorItem[]
+  source?: string
 }
 
 export interface DeleteMovieResponse {
@@ -36,4 +37,11 @@ export interface CreateMovieResponse {
 export interface GetMoviesParams {
   title?: string
   actorName?: string
+}
+
+export interface ParsedMovieItem {
+  title: string
+  year: number
+  format: MovieFormat
+  stars: string[]
 }

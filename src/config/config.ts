@@ -12,6 +12,7 @@ interface ConfigDto {
 
   appPort: number
   appHost: string
+  movies_upload_dir: string
 }
 
 // TODO: stupid, need to redo
@@ -21,7 +22,7 @@ const DATABASE_LOGGING: Record<string, boolean> = {
 }
 
 function getConfig(): ConfigDto {
-  const {DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_LOGGING, APP_PORT, APP_HOST} = process.env
+  const {DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD, DB_LOGGING, APP_PORT, APP_HOST, MOVIES_UPLOAD_DIR} = process.env
 
   if (!DB_HOST || !DB_PORT || !DB_NAME || !DB_USERNAME || !DB_PASSWORD || !DB_LOGGING) {
     throw new Error('Some of the DB settings not specified')
@@ -44,10 +45,14 @@ function getConfig(): ConfigDto {
     throw new Error('Application port is not a number')
   }
 
+  if (!MOVIES_UPLOAD_DIR) {
+    throw new Error('Movies upload directory was not specified')
+  }
+
   return {
     database: {
       host: DB_HOST, username: DB_USERNAME, password: DB_PASSWORD, port: dbPort, databaseName: DB_NAME, logging: dbLogging in DATABASE_LOGGING ? DATABASE_LOGGING[dbLogging] : false
-    }, appPort, appHost: APP_HOST
+    }, appPort, appHost: APP_HOST, movies_upload_dir: MOVIES_UPLOAD_DIR
   }
 }
 

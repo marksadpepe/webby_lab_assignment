@@ -4,13 +4,79 @@ import { CreateMoviePayload, CreateMovieResponse, DeleteMovieResponse, GetMovies
 import {MovieModel} from "../models/movie.model";
 import { ActorModel } from "../models/actor.model";
 
+import { promises as fs } from "fs";
+import * as path from "path";
+
 import {movieDataMapper as MovieDataMapper} from '../data-mappers/movie.data-mapper';
 import { ApiException } from "../exceptions/api-exception";
 import { sequelize } from "../db/db";
 import { Op, WhereOptions } from "sequelize";
 import { MovieActorModel } from "../models/movie-actor.model";
 
+import {fileService as FileService} from "./file.service";
+
 class MovieService {
+  async importMovies(file?: any): Promise<GenericResponse<CreateMovieResponse>> {
+    if (!file) {
+      throw ApiException.BadRequestException('File was not specified')
+    }
+
+    const {path: filePath} = file
+
+    const filename = path.basename(filePath)
+
+    const raw = await fs.readFile(filePath, "utf-8")
+
+    const parsed = FileService.parseMoviesFile(raw);
+
+    if (!parsed.length) {
+      throw ApiException.BadRequestException('File has no valid movie records');
+    }
+
+    const titles = Array.from(new Set(parsed.map(({title}) => title)));
+
+    const existing = await MovieModel.findAll({ where: { title: { [Op.in]: titles } } });
+    
+    const existingSet = new Set(existing.map(({title}) => title));
+
+    return await sequelize.transaction(async (transaction) => {
+      const createdIds: string[] = [];
+
+      for (const movieItem of parsed) {
+        const {title, stars, year, format} = movieItem
+
+        if (existingSet.has(title)) {
+          continue;
+        }
+
+        const actorModels: ActorModel[] = [];
+
+        for (const fullName of stars) {
+          const [actor] = await ActorModel.findOrCreate({
+            where: { fullName },
+            defaults: { fullName },
+            transaction
+          });
+
+          actorModels.push(actor);
+        }
+
+        const movie = await MovieModel.create(
+          { title, year, format, source: filename },
+          { transaction }
+        );
+
+        const movieHasActorsList = actorModels.map(a => ({ movieId: movie.id, actorId: a.id }));
+
+        await MovieActorModel.bulkCreate(movieHasActorsList, { transaction });
+
+        createdIds.push(movie.id);
+      }
+
+      return { data: { ids: createdIds } };
+    })
+  }
+
   async createMovie(data: CreateMoviePayload): Promise<GenericResponse<CreateMovieResponse>> {
     const {data: movieList} = data 
 
