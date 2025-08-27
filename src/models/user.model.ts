@@ -1,26 +1,34 @@
-import { Column, CreatedAt, DataType, Default, DeletedAt, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
+import {
+  Column,
+  CreatedAt,
+  DataType,
+  Default,
+  DeletedAt,
+  Model,
+  PrimaryKey,
+  Table,
+  UpdatedAt,
+} from 'sequelize-typescript';
 
-@Table({ tableName: "users", timestamps: true, paranoid: true })
+@Table({ tableName: 'users', timestamps: true, paranoid: true })
 export class UserModel extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id: string
+  id: string;
 
   @Column({ type: DataType.STRING(100), unique: true })
-  email: string
+  email: string;
 
   @Column({ type: DataType.STRING(200) })
-  password: string
+  password: string;
 
   @CreatedAt
-  createdAt: Date
+  createdAt: Date;
 
   @UpdatedAt
-  updatedAt: Date
+  updatedAt: Date;
 
   @DeletedAt
-  deletedAt: Date
+  deletedAt: Date;
 }
-
-

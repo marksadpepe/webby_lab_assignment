@@ -1,6 +1,8 @@
-import {config} from "../config/config";
+import { config } from '../config/config';
 
-const {database: {logging, username, password, port, host, databaseName}} = config
+const {
+  database: { logging, username, password, port, host, databaseName },
+} = config;
 
 module.exports = {
   dialect: 'postgres',
@@ -15,4 +17,3 @@ module.exports = {
     timestamps: true,
   },
 };
-

@@ -1,36 +1,47 @@
-import { BelongsToMany, Column, CreatedAt, DataType, Default, DeletedAt, Model, PrimaryKey, Table, UpdatedAt } from "sequelize-typescript";
-import { MovieFormat } from "../types/interfaces/movie";
-import { ActorModel } from "./actor.model";
-import { MovieActorModel } from "./movie-actor.model";
+import {
+  BelongsToMany,
+  Column,
+  CreatedAt,
+  DataType,
+  Default,
+  DeletedAt,
+  Model,
+  PrimaryKey,
+  Table,
+  UpdatedAt,
+} from 'sequelize-typescript';
+import { MovieFormat } from '../types/interfaces/movie';
+import { ActorModel } from './actor.model';
+import { MovieActorModel } from './movie-actor.model';
 
-@Table({tableName: "movies", timestamps: true, paranoid: true})
+@Table({ tableName: 'movies', timestamps: true, paranoid: true })
 export class MovieModel extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id: string
+  id: string;
 
-  @Column({type: DataType.STRING(100), unique: true})
-  title: string
+  @Column({ type: DataType.STRING(100), unique: true })
+  title: string;
 
   @Column(DataType.SMALLINT)
-  year: number
+  year: number;
 
-  @Column({type: DataType.ENUM(...Object.values(MovieFormat))})
-  format: MovieFormat
+  @Column({ type: DataType.ENUM(...Object.values(MovieFormat)) })
+  format: MovieFormat;
 
-  @Column({type: DataType.STRING(200), allowNull: true})
-  source: string
+  @Column({ type: DataType.STRING(200), allowNull: true })
+  source: string;
 
   @BelongsToMany(() => ActorModel, () => MovieActorModel)
-  actorList: ActorModel[]
+  actorList: ActorModel[];
 
   @CreatedAt
-  createdAt: Date
+  createdAt: Date;
 
   @UpdatedAt
-  updatedAt: Date
+  updatedAt: Date;
 
   @DeletedAt
-  deletedAt: Date
+  deletedAt: Date;
 }

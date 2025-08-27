@@ -1,19 +1,27 @@
-import { Column, DataType, Default, ForeignKey, Model, PrimaryKey, Table } from "sequelize-typescript";
-import { MovieModel } from "./movie.model";
-import { ActorModel } from "./actor.model";
+import {
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
+import { MovieModel } from './movie.model';
+import { ActorModel } from './actor.model';
 
-@Table({tableName: "movies_actors", timestamps: false})
+@Table({ tableName: 'movies_actors', timestamps: false })
 export class MovieActorModel extends Model {
   @PrimaryKey
   @Default(DataType.UUIDV4)
   @Column(DataType.UUID)
-  id: string
+  id: string;
 
   @ForeignKey(() => MovieModel)
   @Column(DataType.UUID)
-  movieId: string
+  movieId: string;
 
   @ForeignKey(() => ActorModel)
   @Column(DataType.UUID)
-  actorId: string
+  actorId: string;
 }

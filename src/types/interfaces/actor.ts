@@ -1,4 +1,4 @@
 export interface ActorItem {
-  id: string
-  fullName: string
+  id: string;
+  fullName: string;
 }

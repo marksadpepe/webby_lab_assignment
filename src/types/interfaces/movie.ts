@@ -1,47 +1,47 @@
-import { ActorItem } from "./actor"
+import { ActorItem } from './actor';
 
 export enum MovieFormat {
   Vhs = 'VHS',
   Dvd = 'DVD',
-  BluRay = 'Blu-Ray'
+  BluRay = 'Blu-Ray',
 }
 
 export interface GetMovieResponse {
-  id: string
-  title: string
-  year: number
-  format: MovieFormat
-  actorList: ActorItem[]
-  source?: string
+  id: string;
+  title: string;
+  year: number;
+  format: MovieFormat;
+  actorList: ActorItem[];
+  source?: string;
 }
 
 export interface DeleteMovieResponse {
-  success: boolean
+  success: boolean;
 }
 
 export interface CreateMovieData {
-  title: string
-  year: number
-  format: MovieFormat
-  actorIds: string[]
+  title: string;
+  year: number;
+  format: MovieFormat;
+  actorIds: string[];
 }
 
 export interface CreateMoviePayload {
-  data: CreateMovieData[]
+  data: CreateMovieData[];
 }
 
 export interface CreateMovieResponse {
-  ids: string[]
+  ids: string[];
 }
 
 export interface GetMoviesParams {
-  title?: string
-  actorName?: string
+  title?: string;
+  actorName?: string;
 }
 
 export interface ParsedMovieItem {
-  title: string
-  year: number
-  format: MovieFormat
-  stars: string[]
+  title: string;
+  year: number;
+  format: MovieFormat;
+  stars: string[];
 }

@@ -1,23 +1,22 @@
-
 interface GenericUserDataPayload {
-    email: string
-    password: string
+  email: string;
+  password: string;
 }
 
-export interface RegistrationPayload extends GenericUserDataPayload {
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface RegistrationPayload extends GenericUserDataPayload {}
 
 export interface RegistrationResponse {
-    id: string
+  id: string;
 }
 
-export interface LoginPayload extends GenericUserDataPayload {
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface LoginPayload extends GenericUserDataPayload {}
 
 export interface LoginResponse {
-    token: string
+  token: string;
 }
 
 export interface LogoutReponse {
-    success: boolean
+  success: boolean;
 }
