@@ -29,6 +29,10 @@ module.exports = {
           type: '"public"."enum_MovieFormat"',
           allowNull: false
         },
+        source: {
+          type: Sequelize.STRING(200),
+          allowNull: true
+        },
         createdAt: {
           type: Sequelize.DATE,
           allowNull: false,

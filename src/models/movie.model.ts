@@ -19,6 +19,9 @@ export class MovieModel extends Model {
   @Column({type: DataType.ENUM(...Object.values(MovieFormat))})
   format: MovieFormat
 
+  @Column({type: DataType.STRING(200), allowNull: true})
+  source: string
+
   @BelongsToMany(() => ActorModel, () => MovieActorModel)
   actorList: ActorModel[]
 
