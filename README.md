@@ -51,6 +51,9 @@ docker build -f build/Dockerfile -t movies_test .
 docker run --rm -d --name movies -p 8000:8050 --env-file .env -e APP_PORT=8050 movies_test
 ```
 
+5. **Movie file access**
+To access the file you need to visit `http://localhost:YOUR_MAP_PORT/soure`, where ```source``` - path to the file on server.
+
 The API will be available at `http://localhost:8000/api/v1`
 
 ### 2.2. Pull from Docker Hub
@@ -66,6 +69,8 @@ docker pull markpark3r/movies:latest
 ```bash
 docker run --name movies -p 8000:8050 --env-file .env -e APP_PORT=8050 markpark3r/movies:latest
 ```
+
+4. **Movie file access (same as in 2.1)**
 
 ### API Endpoints
 
