@@ -126,13 +126,13 @@ docker run --name movies -p 8000:8050 --env-file .env -e APP_PORT=8050 markpark3
         {
           "title": "The Matrix",
           "year": 1999,
-          "format": "BluRay",
+          "format": "DVD",
           "actorIds": ["<uuid>", "<uuid>"]
         }
       ]
     }
     ```
-    - format: one of `Vhs`, `Dvd`, `BluRay`
+    - format: one of `Vhs`, `Dvd`, `Blu-Ray`
   - Responses:
     - 201: created entities
 
