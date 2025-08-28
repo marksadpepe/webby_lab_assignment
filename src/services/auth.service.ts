@@ -19,6 +19,10 @@ class AuthService {
   ): Promise<GenericResponse<RegistrationResponse>> {
     const { email, password } = payload;
 
+    if (password.trim() === "") {
+      throw ApiException.BadRequestException('Password can\'t be empty')
+    }
+
     const existing = await UserModel.findOne({ where: { email } });
     if (existing) {
       throw ApiException.ConflictException(
@@ -37,6 +41,10 @@ class AuthService {
 
   async login(payload: LoginPayload): Promise<GenericResponse<LoginResponse>> {
     const { email, password } = payload;
+
+    if (password.trim() === "") {
+      throw ApiException.BadRequestException('Password can\'t be empty')
+    }
 
     const user = await UserModel.findOne({ where: { email } });
 
