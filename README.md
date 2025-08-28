@@ -75,19 +75,89 @@ docker run --name movies -p 8000:8050 --env-file .env -e APP_PORT=8050 markpark3
 ### API Endpoints
 
 #### Auth
-- `POST /api/v1/auth/register` - Register a user
-- `POST /api/v1/auth/login` - Login and receive a token
-- `POST /api/v1/auth/logout` - Logout (invalidate token)
+- `POST /api/v1/auth/register`
+  - Request body:
+    ```json
+    { "email": "user@example.com", "password": "StrongPass123" }
+    ```
+    - password: non-empty string
+  - Responses:
+    - 201:
+      ```json
+      { "data": { "id": "<userId>" } }
+      ```
+    - 409: email already exists
+
+- `POST /api/v1/auth/login`
+  - Request body:
+    ```json
+    { "email": "user@example.com", "password": "StrongPass123" }
+    ```
+    - password: non-empty string
+  - Responses:
+    - 200:
+      ```json
+      { "data": { "token": "<sessionToken>" } }
+      ```
+    - 404: user not found
+    - 400: invalid password
+
+- `POST /api/v1/auth/logout`
+  - Headers: `Authorization: Bearer <token>`
+  - Responses:
+    - 200:
+      ```json
+      { "data": { "success": true } }
+      ```
 
 #### Movies
-- `POST /api/v1/movies/import` - Import movies from file
-- `POST /api/v1/movies` - Create a new movie
-- `GET /api/v1/movies` - Get list of movies (all movies of specific movie by title or artist name)
-- `GET /api/v1/movies/:id` - Get a movie by ID
-- `DELETE /api/v1/movies/:id` - Delete a movie
+- `POST /api/v1/movies/import`
+  - Headers: `Authorization: Bearer <token>`
+  - Form-data: `file` (text file with blocks; see Import file format)
+  - Responses:
+    - 201: created movies list summary
+
+- `POST /api/v1/movies`
+  - Headers: `Authorization: Bearer <token>`
+  - Request body:
+    ```json
+    {
+      "data": [
+        {
+          "title": "The Matrix",
+          "year": 1999,
+          "format": "BluRay",
+          "actorIds": ["<uuid>", "<uuid>"]
+        }
+      ]
+    }
+    ```
+    - format: one of `Vhs`, `Dvd`, `BluRay`
+  - Responses:
+    - 201: created entities
+
+- `GET /api/v1/movies`
+  - Headers: `Authorization: Bearer <token>`
+  - Query params:
+    - `title` (optional): string, exact or partial match by title
+    - `actorName` (optional): string, match by actor full name
+  - Responses:
+    - 200: list of movies matching filters
+
+- `GET /api/v1/movies/:id`
+  - Headers: `Authorization: Bearer <token>`
+  - Responses:
+    - 200: movie by ID
+    - 404: not found
+
+- `DELETE /api/v1/movies/:id`
+  - Headers: `Authorization: Bearer <token>`
+  - Responses:
+    - 200: deletion result
+    - 404: not found
 
 ### Import file format
-The file should contain blocks of movie data separated by blank lines (example file stores in ```samples``` directory):
+The file should contain blocks of movie data separated by blank lines (example file stores in `samples` directory):
 
 ```
 Title: Movie Title
